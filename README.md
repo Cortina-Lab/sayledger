@@ -108,7 +108,7 @@ The server address can be changed in **Settings → Server**.
 | Reminders — English, Hindi, Spanish; amount always exact | ✅ tested |
 | Ledger page — printed-style handwriting with one blurred row (blurred row reported as unreadable) | ✅ tested; real handwriting varies |
 | Stock count — synthetic shelf (7 bottles, 4 boxes) | ✅ counted correctly; real shelves are approximate |
-| Voice entry with real speech | see the demo video |
+| Voice entry with real speech — Hinglish ("Ramesh ne do kilo chawal liye, 180 udhaar") → transcribed in Devanagari → card *Ramesh · credit · ₹180 · 2 kg rice* | ✅ tested (laptop mic, 16 kHz WAV) |
 | Other languages | *should* work (the models are multilingual) but are **not yet tested** |
 
 **Demo data**: the "Demo Shop" in the video uses invented customers and amounts
