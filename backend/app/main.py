@@ -155,9 +155,19 @@ def _propose(text: str, ledger: Ledger) -> ProposalsOut:
     return ProposalsOut(heard=text, proposals=agent.extract(text, currency, _known(ledger)), currency=currency)
 
 
-async def _transcribe(audio: UploadFile) -> str:
+# Biasing helps with short shop words the model otherwise mishears (tel / til).
+SHOP_WORDS = {
+    "INR": ["udhaar", "wapas", "diye", "liya", "rupaye", "tel", "chawal", "cheeni", "aata", "dal", "doodh", "sabun"],
+    "USD": ["tab", "credit", "paid back", "bucks", "dollars", "gallon"],
+}
+LANGUAGES = {"INR": ["Hindi", "English"]}
+
+
+async def _transcribe(audio: UploadFile, ledger: Ledger | None = None) -> str:
     wav = await _read_limited(audio, MAX_AUDIO_BYTES, "Audio")
-    heard = meta_client.transcribe(wav).text.strip()
+    cur = ledger.currency() if ledger else "INR"
+    names = list(_known(ledger)) if ledger else []
+    heard = meta_client.transcribe(wav, language_bias=LANGUAGES.get(cur), keywords=names + SHOP_WORDS.get(cur, [])).text.strip()
     if not heard:
         raise HTTPException(422, "Didn't catch that — please speak again closer to the phone, or type it")
     return heard
@@ -170,7 +180,7 @@ def text_entry(body: TextIn, book: Book = Depends(ai_quota)) -> ProposalsOut:
 
 @app.post("/voice", response_model=ProposalsOut)
 async def voice_entry(audio: UploadFile = File(...), book: Book = Depends(ai_quota)) -> ProposalsOut:
-    return _propose(await _transcribe(audio), book.ledger)
+    return _propose(await _transcribe(audio, book.ledger), book.ledger)
 
 
 # ── confirm -> saved ──────────────────────────────────────────────────
@@ -333,7 +343,7 @@ async def ask(request: Request, book: Book = Depends(ai_quota)) -> dict:
         audio = form.get("audio")
         if not isinstance(audio, UploadFile) and not hasattr(audio, "read"):
             raise HTTPException(400, "Send audio or text")
-        question = await _transcribe(audio)
+        question = await _transcribe(audio, book.ledger)
     else:
         try:
             question = AskIn(**(await request.json())).text

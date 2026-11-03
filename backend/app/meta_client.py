@@ -113,11 +113,14 @@ class Transcript:
     session_id: str
 
 
-def transcribe(wav_bytes: bytes, language_bias: list[str] | None = None) -> Transcript:
+def transcribe(wav_bytes: bytes, language_bias: list[str] | None = None,
+               keywords: list[str] | None = None) -> Transcript:
     """WAV only: mono integer PCM at 16 kHz or 24 kHz, max 10 minutes / 32 MB."""
     request: dict = {"model": TRANSCRIBE_MODEL, "audioEncoding": "WAV", "mode": "PUSH_TO_TALK"}
     if language_bias:
         request["languageBias"] = language_bias
+    if keywords:
+        request["keywords"] = keywords[:100]
     files = {
         "request": (None, json.dumps(request), "application/json"),
         "audio": ("audio.wav", wav_bytes, "audio/wav"),

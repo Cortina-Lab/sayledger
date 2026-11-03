@@ -51,6 +51,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
   }
 
+  Future<void> _server() async {
+    final c = TextEditingController(text: Api.instance.base);
+    final url = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Server address'),
+        content: TextField(controller: c, keyboardType: TextInputType.url, decoration: const InputDecoration(hintText: 'http://192.168.1.3:8077')),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+          FilledButton(onPressed: () => Navigator.pop(ctx, c.text), child: const Text('Save')),
+        ],
+      ),
+    );
+    if (url == null || url.trim().isEmpty) return;
+    await Api.instance.setBase(url);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final c = context.c;
@@ -105,7 +123,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           FilledButton(onPressed: _busy ? null : _start, child: Text(widget.another ? 'Create book' : 'Open my book')),
           const SizedBox(height: 6),
           TextButton(onPressed: _busy ? null : () => _start(restore: true), child: const Text('Restore from a backup')),
-          const SizedBox(height: 18),
+          Center(
+            child: TextButton.icon(
+              onPressed: _busy ? null : _server,
+              icon: const Icon(Icons.dns_outlined, size: 16),
+              label: Text('Server: ${Api.instance.base}', style: const TextStyle(fontSize: 13)),
+            ),
+          ),
+          const SizedBox(height: 8),
           Text(
             'Your book is private to this device. No login, no ads. You can back it up or erase it any time in Settings.',
             textAlign: TextAlign.center,
