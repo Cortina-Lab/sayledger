@@ -1,0 +1,42 @@
+# Secrets and local data — never commit
+.env
+*.env
+!.env.example
+*.db
+*.db-journal
+*.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Flutter / Android
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.keystore
+*.jks
+key.properties
+local.properties
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Book files (per-install SQLite) and backups
+backend/data/
+*.sayledger
+*.bak
+
+# Internal planning notes and media — not part of the public submission
+/AGENTS*.md
+/GROK_UI_BRIEF.md
+/THALI_CALORIE_EXISTING_FEATURES.md
+/demo/
+backend/tests/fixtures/*.wav
+backend/data/
+*.iml
