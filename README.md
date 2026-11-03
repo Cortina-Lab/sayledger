@@ -1,4 +1,11 @@
+<p align="center"><img src="docs/logo.png" alt="SayLedger" width="360"></p>
+
 # SayLedger by Cortina
+
+[![CI](https://github.com/Cortina-Lab/sayledger/actions/workflows/ci.yml/badge.svg)](https://github.com/Cortina-Lab/sayledger/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/Cortina-Lab/sayledger?include_prereleases)](https://github.com/Cortina-Lab/sayledger/releases)
+![Meta models](https://img.shields.io/badge/AI-Muse%20Spark%20·%20Voice%20Transcribe%20·%20SAM%203.1-0866FF)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 **Say it. It's in the book.**
 
@@ -12,6 +19,20 @@ and it's in the book. They can photograph an old handwritten ledger page, ask th
 questions, see who owes what and for how long, send polite reminders, and share statements as PDF.
 
 Built for the **Meta Global AI Developer Hackathon** (Startup track, theme: *Build for Your World*).
+
+---
+
+## Screenshots
+
+| Home | Collections | Customer | Ask your book |
+|---|---|---|---|
+| <img src="docs/screenshots/01_home.jpg" width="200"> | <img src="docs/screenshots/02_collections.jpg" width="200"> | <img src="docs/screenshots/03_customer.jpg" width="200"> | <img src="docs/screenshots/04_ask.jpg" width="200"> |
+
+| Reports | Day book | Count stock (SAM 3.1) |
+|---|---|---|
+| <img src="docs/screenshots/05_reports.jpg" width="200"> | <img src="docs/screenshots/06_daybook.jpg" width="200"> | <img src="docs/screenshots/07_stock.jpg" width="200"> |
+
+<sub>Screens show the invented "Demo Shop" data. The app also has a dark theme and USD / any-currency books.</sub>
 
 ---
 
@@ -83,7 +104,7 @@ cd backend
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 cp .env.example .env          # put your Meta Model API key in META_API_KEY
 .venv/bin/uvicorn app.main:app --port 8077
-.venv/bin/python -m pytest -q # 42 tests, no network needed
+.venv/bin/python -m pytest -q # 42 tests, no network needed (also run by CI on every push)
 ```
 Optional: `scripts/phase2_check.py` makes one real call to each Meta model;
 `scripts/seed_demo.py data/books/<id>.db` fills a book with invented demo data.
