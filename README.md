@@ -64,7 +64,7 @@ Model calls are rate-limited per book, and `muse-spark-1.3` is called with an ex
 - **Ask your book** — by voice or text; answers show the numbers they came from.
 - **Collections** — outstanding money by age (0–30 / 31–60 / 61–90 / 90+ days, payments clear the
   oldest credit first) and who could use a friendly reminder.
-- **Reminders** in 8 languages — the shopkeeper edits and sends them via the share sheet; the app never sends anything itself.
+- **Reminders** in 8 selectable languages (English, Hindi and Spanish tested) — the shopkeeper edits and sends them via the share sheet; the app never sends anything itself.
 - **Customer statement PDF** (opening balance, running balance, closing) — share or print.
 - **Reports** for any period — money in / out, net cash, per-customer movement — PDF, print, CSV.
 - **Day book** with period and type filters.
@@ -98,6 +98,11 @@ Flutter app (Android)  ──audio / photo / text──▶  FastAPI backend (Pyt
 
 ## Run it
 
+### Try it without setup
+Install `SayLedger-1.0.0.apk` from the [v1.0.0 release](https://github.com/Cortina-Lab/sayledger/releases/tag/v1.0.0).
+It talks to our hosted demo backend at `https://cortinainfinity.com/sayledger` (the same code as
+`backend/`), so no laptop or key is needed. Please use invented names and amounts only.
+
 ### Backend
 ```bash
 cd backend
@@ -115,8 +120,9 @@ cd app
 adb reverse tcp:8077 tcp:8077   # phone on USB talks to the laptop backend
 flutter run                     # or: flutter build apk
 ```
-First launch asks for a shop name and region and creates a private book.
-The server address can be changed in **Settings → Server**.
+First launch asks for a shop name and region and creates a private book. The app uses the hosted
+demo backend by default; tap **Server** on the first screen to use your own
+(for example `http://127.0.0.1:8077` with the `adb reverse` line above).
 
 ---
 
