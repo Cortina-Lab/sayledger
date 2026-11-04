@@ -11,8 +11,9 @@ class Api {
   Api._();
   static final Api instance = Api._();
 
-  /// With USB + `adb reverse tcp:8077 tcp:8077` the laptop backend is on 127.0.0.1.
-  static const defaultBase = 'http://127.0.0.1:8077';
+  /// Hosted demo backend. For local development use the "Server" option on the
+  /// first screen (e.g. http://127.0.0.1:8077 with `adb reverse tcp:8077 tcp:8077`).
+  static const defaultBase = 'https://cortinainfinity.com/sayledger';
   String base = defaultBase;
   String? token;
 
